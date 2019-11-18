@@ -2,6 +2,7 @@
 #include "GUI.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 static int console_curx;
 static int console_cury;
@@ -13,7 +14,12 @@ static int console_rowsMax;
 static int console_columnsMax;
 static char **console_textBuffer;
 
+static bool console_updateMode = true;
 
+void console_setUpdateMode(bool mode)
+{
+    console_updateMode = mode;
+}
 
 void console_dumpBuffer()
 {
@@ -64,8 +70,10 @@ void console_scroll()
 
 void console_print(char *text)
 {
+#ifdef CONSOLE_DEBUG
 
     printf("inserting %s at %d\n",text,console_insertLine);
+#endif
 
     char *p=text;
     while(*p)
@@ -92,6 +100,8 @@ void console_print(char *text)
         p++;
     }
 
+    if(console_updateMode)
+        console_dumpBuffer();
 
     //printf("end console firstLine = %d console_numLine %d\n",console_topBuffer,console_numLine);
 }
@@ -105,6 +115,7 @@ void console_init(const GUI_FONT  *pFont)
     console_rowsMax = GUI_GetScreenSizeY()/GUI_GetYDistOfFont(pFont);
     console_columnsMax = GUI_GetScreenSizeX()/GUI_GetCharDistX('A');
 
+#ifdef CONSOLE_DEBUG
     printf("-----------------\n");
     printf("Screen X = %d\n",GUI_GetScreenSizeX());
     printf("Screen Y = %d\n",GUI_GetScreenSizeY());
@@ -113,6 +124,7 @@ void console_init(const GUI_FONT  *pFont)
     
     printf("Columns = %d\n",console_columnsMax);
     printf("Rows = %d\n",console_rowsMax);
+#endif
 
     console_textBuffer = (char **)malloc(sizeof(char *)*console_rowsMax);
     for(int i=0;i<console_rowsMax;i++)
