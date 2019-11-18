@@ -78,7 +78,11 @@ void console_print(char *text)
     char *p=text;
     while(*p)
     {
-        if(*p == '\n')
+        if(*p == '\r')
+        {
+            // ignore
+        }
+        else if(*p == '\n')
         {
             for(int i=console_curx;i<console_columnsMax;i++)
             {
