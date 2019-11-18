@@ -9,7 +9,7 @@ To use the console you must add:
 
 Then you can then call
 
-'''
+```
     GUI_Init();
     GUI_SetColor(GUI_WHITE);
     GUI_SetBkColor(GUI_BLACK);
@@ -17,5 +17,5 @@ Then you can then call
     console_init(GUI_FONT_8X16_ASCII);
     console_setUpdateMode(true);
     console_print("Hello World");
-'''
+```
 
